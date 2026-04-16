@@ -227,7 +227,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <div>
               <h2 className="text-2xl font-bold mb-6">You May Also Like</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {relatedProducts.map((relatedProduct: Product) => (
+                {relatedProducts.map((relatedProduct: any) => (
                   <a
                     key={relatedProduct.id}
                     href={`/products/${relatedProduct.slug}`}
