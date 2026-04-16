@@ -180,12 +180,14 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Secret Admin Button */}
+      {/* Secret Admin Button - Made slightly more visible for easier access */}
       <button
         onClick={() => setIsAdminModalOpen(true)}
-        className="fixed bottom-4 right-4 w-2 h-2 bg-transparent hover:bg-white/10 rounded-full transition-colors"
+        className="fixed bottom-4 right-4 w-4 h-4 bg-white/5 hover:bg-white/20 border border-white/10 rounded-full transition-all duration-300 z-50 flex items-center justify-center group"
         aria-label="Admin access"
-      />
+      >
+        <div className="w-1 h-1 bg-white/20 group-hover:bg-white/40 rounded-full" />
+      </button>
 
       {/* Admin Login Modal */}
       <Modal
