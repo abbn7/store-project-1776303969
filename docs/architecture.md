@@ -219,7 +219,7 @@
 │   └── /fonts
 │
 ├── middleware.ts                # Next.js middleware
-├── next.config.ts
+├── next.config.js
 ├── tailwind.config.ts
 ├── tsconfig.json
 ├── package.json

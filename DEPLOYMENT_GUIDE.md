@@ -126,7 +126,7 @@ git push -u origin main
 ### مشكلة: الصور لا تظهر
 **الحل:**
 ```typescript
-// في next.config.ts
+// في next.config.js
 images: {
   domains: ['your-project.supabase.co'],
 }
