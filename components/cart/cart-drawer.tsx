@@ -7,7 +7,7 @@ import { useCartStore } from '@/store'
 import { formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { QuantitySelector } from '@/components/ui/quantity-selector'
-import { X, ShoppingBag, Trash2, ArrowRight } from 'lucide-react'
+import { X, ShoppingBag, Trash2, ArrowRight, Sparkles } from 'lucide-react'
 
 export function CartDrawer() {
   const { items, isOpen, setCartOpen, removeItem, updateQuantity, getSummary } = useCartStore()
@@ -55,11 +55,16 @@ export function CartDrawer() {
             <div className="flex-1 overflow-auto p-6">
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center">
-                  <ShoppingBag className="w-16 h-16 text-muted mb-4" />
+                  <div className="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mb-4">
+                    <ShoppingBag className="w-10 h-10 text-accent" />
+                  </div>
                   <h3 className="text-lg font-medium mb-2">Your cart is empty</h3>
-                  <p className="text-muted mb-6">Add some products to get started</p>
+                  <p className="text-muted mb-6">Discover amazing products and add them to your cart</p>
                   <Link href="/products" onClick={() => setCartOpen(false)}>
-                    <Button className="btn-primary">Browse Products</Button>
+                    <Button className="btn-primary gap-2">
+                      <Sparkles className="w-4 h-4" />
+                      Start Shopping
+                    </Button>
                   </Link>
                 </div>
               ) : (
@@ -71,13 +76,13 @@ export function CartDrawer() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
-                      className="flex gap-4"
+                      className="flex gap-4 p-4 bg-surface rounded-xl"
                     >
                       {/* Image */}
                       <Link
                         href={`/products/${item.slug}`}
                         onClick={() => setCartOpen(false)}
-                        className="relative w-20 h-20 rounded-lg overflow-hidden bg-surface flex-shrink-0"
+                        className="relative w-20 h-20 rounded-lg overflow-hidden bg-background flex-shrink-0"
                       >
                         <Image
                           src={item.image || '/images/placeholder.jpg'}
@@ -125,7 +130,7 @@ export function CartDrawer() {
             {items.length > 0 && (
               <div className="border-t border-border p-6 space-y-4">
                 {/* Summary */}
-                <div className="space-y-2 text-sm">
+                <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted">Subtotal</span>
                     <span>{formatPrice(summary.subtotal)}</span>
@@ -133,7 +138,11 @@ export function CartDrawer() {
                   <div className="flex justify-between">
                     <span className="text-muted">Shipping</span>
                     <span>
-                      {summary.shipping === 0 ? 'Free' : formatPrice(summary.shipping)}
+                      {summary.shipping === 0 ? (
+                        <span className="text-green-600 font-medium">Free</span>
+                      ) : (
+                        formatPrice(summary.shipping)
+                      )}
                     </span>
                   </div>
                   {summary.discount > 0 && (
@@ -142,15 +151,34 @@ export function CartDrawer() {
                       <span>-{formatPrice(summary.discount)}</span>
                     </div>
                   )}
-                  <div className="flex justify-between text-lg font-semibold pt-2 border-t border-border">
+                  <div className="flex justify-between text-lg font-semibold pt-3 border-t border-border">
                     <span>Total</span>
                     <span>{formatPrice(summary.total)}</span>
                   </div>
                 </div>
 
+                {/* Free Shipping Progress */}
+                {summary.shipping > 0 && (
+                  <div className="bg-accent/10 rounded-lg p-3">
+                    <div className="flex items-center gap-2 text-sm mb-2">
+                      <Sparkles className="w-4 h-4 text-accent" />
+                      <span className="text-foreground">
+                        Add {formatPrice(50 - summary.subtotal)} more for free shipping!
+                      </span>
+                    </div>
+                    <div className="w-full h-2 bg-accent/20 rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${Math.min((summary.subtotal / 50) * 100, 100)}%` }}
+                        className="h-full bg-accent rounded-full"
+                      />
+                    </div>
+                  </div>
+                )}
+
                 {/* Actions */}
                 <Link href="/checkout" onClick={() => setCartOpen(false)}>
-                  <Button className="w-full btn-primary gap-2">
+                  <Button className="w-full btn-primary gap-2 py-4">
                     Checkout
                     <ArrowRight className="w-4 h-4" />
                   </Button>

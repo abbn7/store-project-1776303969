@@ -7,6 +7,7 @@ import { Footer } from '@/components/layout/footer'
 import { AnnouncementBar } from '@/components/layout/announcement-bar'
 import { CartDrawer } from '@/components/cart/cart-drawer'
 import { NewsletterPopup } from '@/components/marketing/newsletter-popup'
+import { ToastProvider } from '@/components/ui/toast'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -59,14 +60,16 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans`}>
         <ThemeProvider>
-          <AnnouncementBar />
-          <Navbar />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <Footer />
-          <CartDrawer />
-          <NewsletterPopup />
+          <ToastProvider>
+            <AnnouncementBar />
+            <Navbar />
+            <main className="min-h-screen">
+              {children}
+            </main>
+            <Footer />
+            <CartDrawer />
+            <NewsletterPopup />
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>
